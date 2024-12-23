@@ -2,8 +2,8 @@
 
 ![Build Status](https://github.com/jmt1423/OneAnalytics/actions/workflows/ci.yml/badge.svg)
 ![Last Commit](https://img.shields.io/github/last-commit/jmt1423/OneAnalytics)
-![Electron Version](https://img.shields.io/github/package-json/dependency-version/jmt1423/OneAnalytics/electron)
-![React Version](https://img.shields.io/github/package-json/dependency-version/jmt1423/OneAnalytics/react)
+![Electron Version](https://img.shields.io/badge/electron-v33.2.1-blue)
+![React Version](https://img.shields.io/badge/react-v18.3.1-blue)
 ![Node.js Version](https://img.shields.io/badge/node-%3E%3D23.0.0-blue)
 
 This is my data visualization software build with electron-builder, Vite, and React.
