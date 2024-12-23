@@ -5,9 +5,9 @@
   "private": true,
   "type": "module",
   "author": {
-    "email": "kozackunisoft@gmail.com",
-    "name": "Alex Kozack",
-    "url": "https://kozack.me"
+    "email": "jthomann@pm.me",
+    "name": "Jonathan Thomann",
+    "url": "https://www.linkedin.com/in/thomannj/"
   },
   "main": "packages/entry-point.js",
   "workspaces": [
