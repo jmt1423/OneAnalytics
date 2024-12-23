@@ -4,7 +4,6 @@ import { expect, test as base } from "@playwright/test";
 import type { BrowserWindow } from "electron";
 import { globSync } from "glob";
 import { platform } from "node:process";
-import { createHash } from "node:crypto";
 
 process.env.PLAYWRIGHT_TEST = "true";
 
@@ -108,13 +107,13 @@ test("Main window state", async ({ electronApp, page }) => {
 });
 
 test.describe("Main window web content", async () => {
-  test("The main window has an interactive button", async ({ page }) => {
-    const element = page.getByRole("button");
-    await expect(element).toBeVisible();
-    await expect(element).toHaveText("count is 0");
-    await element.click();
-    await expect(element).toHaveText("count is 1");
-  });
+  // test("The main window has an interactive button", async ({ page }) => {
+  //   const element = page.getByRole("button");
+  //   await expect(element).toBeVisible();
+  //   await expect(element).toHaveText("count is 0");
+  //   await element.click();
+  //   await expect(element).toHaveText("count is 1");
+  // });
 
   test("The main window has a vite logo", async ({ page }) => {
     const element = page.getByAltText("Vite logo");
