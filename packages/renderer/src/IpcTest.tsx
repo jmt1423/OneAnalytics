@@ -1,26 +1,9 @@
-type ReadCsvResponse = {
-  success: boolean;
-  error?: string;
-  content?: string;
-};
+import { sendData } from "@vite-electron-builder/preload";
 
 const ButtonTest = () => {
   const handleReadCsv = async () => {
     const filePath = "/path/to/csv/";
-
-    try {
-      const response = await window.sendData<ReadCsvResponse>(
-        "read-csv",
-        filePath,
-      );
-      if (response.success) {
-        console.log("success", response);
-      } else {
-        console.error("error reading file", response.error);
-      }
-    } catch (error) {
-      console.error("unexpected error", error);
-    }
+    await sendData("read-csv", filePath);
   };
   return (
     <div>
