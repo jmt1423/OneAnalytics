@@ -1,58 +1,32 @@
+# One Analytics Project
 
-> [!Important]
-> This project is maintained by developer from Ukraine 🇺🇦
-> 
-> I do my best, but due to Russia's ongoing full-scale invasion of Ukraine, I barely have the energy to support open source projects.
->
-> If my work has been useful to you, please consider [supporting Ukraine](https://stand-with-ukraine.pp.ua/) or [me personally](https://send.monobank.ua/6SmojkkR9i). Even your **$1** has an impact!
+This is my data visualization software build with electron-builder, Vite, and React.
 
-![IMG_0875](https://github.com/user-attachments/assets/590de304-e2c4-4935-9814-c18ade52fd8e)
+End-to-End testing with playwright
 
+No data tracking, all data is owned by the user. This is free to use and seeks to be a simpler version of Apache Echarts and Tableau.
 
-# Vite Electron Builder Boilerplate
+## Get started with development
 
-![GitHub last commit](https://img.shields.io/github/last-commit/cawa-93/vite-electron-builder?label=last%20update)
-![GitHub package.json dev/peer/optional dependency version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/electron) 
-![GitHub package.json dev/peer/optional dependency version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/electron-builder)
-![GitHub package.json dev/peer/optional dependency version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/vite?filename=packages%2Fmain%2Fpackage.json)
-![GitHub package.json dev/peer/optional dependency version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/playwright)
-
-This is a template for secure electron applications. Written following the latest safety requirements, recommendations
-and best practices.
-
-## Get started
-
-Follow these steps to get started with the template:
-
-1. Click the **[Use this template](https://github.com/cawa-93/vite-electron-builder/generate)** button (you must be logged in) or just clone this repo.
-2. Go to project folder and run `npm run init`.
+1. Just clone this repo.
+2. Go to project folder and run `npm install`.
 3. Start application in development mode by `npm start`.
 4. Compile executable by `npm run compile`.
  
-That's all you need. 😉
-
-> [!TIP]
-> You can explore the demo application for various frameworks and operating systems in the [Deployment](https://github.com/cawa-93/vite-electron-builder/deployments) section.
-> This will allow you to see how the application performs across different environments.
-> Additionally, you can verify the auto-update functionality by installing an outdated version of the application.
-
-❤️ **If you like this template, give a ⭐ or [send support](https://www.buymeacoffee.com/kozack/)!**
+That's it!
 
 ## Features
 
-### Lightweight
-When designing this template, I tried to keep ше minimal, using the platform's native features to the maximum and minimizing the number of third-party dependencies.
-
 ### Electron
 
-- This template uses the latest electron version with all the latest security patches.
+- Uses the latest electron version with all the latest security patches.
 - The architecture of the application is built according to the security [guides](https://www.electronjs.org/docs/tutorial/security) and best practices.
 - The latest version of the [electron-builder] is used to package the application.
 
 ### Automatic tests
 
 - End-to-end are placed in the root [`tests`](tests) directory and use [playwright].
-- You may write any unit tests inside each package and use whatever you ~~want~~ need.
+- You may write any unit tests inside each package and use whatever you need.
 
 ### Continuous Integration
 
@@ -69,10 +43,6 @@ the [`ci`](.github/workflows/ci.yml) workflow starts to create and deploy a new 
 The project is designed as monorepo where each part of the application is an independent package.
 Each package could have own tech stack, tests, dependencies, frameworks, etc.
 All internal names are prefixed by `@vite-electron-builder/*`.
-There are no technical reasons for this.
-It's just for you to make it easier to understand the architecture.
-
-Initially, the repository contains only a few packages.4
 
 ### Packages with building tools:
 
@@ -85,60 +55,9 @@ Initially, the repository contains only a few packages.4
 - [`packages/main`](packages/main) - Implementation of Electron's [**main script**](https://www.electronjs.org/docs/tutorial/quick-start#create-the-main-script-file).
 - [`packages/preload`](packages/preload) - Implementation of Electron's [**preload scripts**](https://www.electronjs.org/docs/latest/tutorial/tutorial-preload).
 
-### Renderer is not included
-
-As you may have noticed, the repository does **not** contain a package that implements the application interface.
-The reason is that since the entire application is a mono-repository,
-you can use any web application based on any framework or bundler as a package for the interface.
-
-There is only one requirement: the template expects to import renderer by `@vite-electron-builder/renderer` name.
-
-> [!TIP]
-> You can create new renderer package in interactive mode by `npm run init`.
-
-> [!NOTE]
-> If you are using a bundler other than vite,
-> you may need to slightly change the [dev-mode.js](packages/dev-mode.js) script to run it correctly.
-
 ## How It works
 
-### Compile executable
-
-When an application is ready to distribute, you need to compile it into executable.
-We are using [electron-builder] for
-this.
-
-- You can compile application locally by `npm run compile`.
-  In this case, you will get executable that you cat share, but it will not support auto-updates out-of-box.
-- To have auto-updater, you should compile an application and publish it to one or more supported sources for distribution. In this case, all application instances will download and apply all new updates. This is done by GitHub action in [release.yml](.github/workflows/release.yml).
-
-> [!TIP]
-> This template is configured to use GitHub Releases to distribute updates, but you can configure whatever you need.
-> Find more in [electron-builder docs](https://www.electron.build/configuration/publish).
-
-
-### Working with third-party dependencies
-
-Because the `renderer` works and builds like a _regular web application_, you can only use dependencies that support the
-browser or compile to a browser-friendly format.
-
-This means that in the `renderer` you are free to use any frontend dependencies such as Vue, React, lodash, axios and so
-on. However, you _CANNOT_ use any native Node.js APIs, such as, `systeminformation`. These APIs are _only_ available in
-a Node.js runtime environment and will cause your application to crash if used in the `renderer` layer. Instead, if you
-need access to Node.js runtime APIs in your frontend, export a function form the `preload` package.
-
-All dependencies that require Node.js api can be used in
-the [`preload` script](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts).
-
-#### Expose in the main world
-
-Here is an example. Let's say you need to read some data from the file system or database in the renderer.
-
-In the preload context, create a function that reads and returns data. To make the function announced in the preload
-available in the render, you usually need to call
-the [`electron.contextBridge.exposeInMainWorld`](https://www.electronjs.org/ru/docs/latest/api/context-bridge).
-
-However, this template is designed to use all power of ES modules.
+However, this is designed to use all power of ES modules.
 You can import anything from `preload` in `renderer`.
 All the data will quietly throw through the `electron.contextBridge.exposeInMainWorld()`,
 so you don't need to worry about it.
@@ -169,22 +88,10 @@ import {getUserData} from '@vite-electron-builder/preload'
 const userData = await getUserData()
 ```
 
-> [!TIP]
-> Find more
-> in [Context Isolation tutorial](https://www.electronjs.org/docs/tutorial/context-isolation#security-considerations).
-
 ### Working with Electron API
 
 Although the preload has access to all of Node.js API, it **still runs in the BrowserWindow context**, so only limited
 electron modules are available in it.
-
-> [!TIP]
-> Check the [electron docs](https://www.electronjs.org/ru/docs/latest/api/clipboard) for the full list of available
-> methods.
-
-All other electron methods can be invoked in the `main`.
-
-As a result, the architecture of interaction between all modules is as follows:
 
 ```mermaid
 sequenceDiagram
@@ -200,16 +107,12 @@ preload->>renderer: Window maximized
 deactivate preload
 ```
 
-> [!TIP]
-> Find more in [Inter-Process Communication tutorial](https://www.electronjs.org/docs/latest/tutorial/ipc).
-
 ### Modes and Environment Variables
 
 All environment variables are set as part of the `import.meta`, so you can access them vie the following
 way: `import.meta.env`.
 
 > [!NOTE]
-> If you are using TypeScript and want to get code completion,
 > you must add all the environment variables to the [`ImportMetaEnv` in `types/env.d.ts`](types/env.d.ts).
 
 The mode option is used to specify the value of `import.meta.env.MODE` and the corresponding environment variables files
@@ -305,9 +208,6 @@ npm run init
 Set up the initial environment by creating a new renderer, integrating it, and installing the necessary packages.
 
 ## Contribution
-
-See [Contributing Guide](CONTRIBUTING.md).
-
 
 [vite]: https://github.com/vitejs/vite/
 
