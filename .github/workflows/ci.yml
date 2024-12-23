@@ -2,17 +2,21 @@
 # It is from here that all other workflows are launched.
 name: Entry CI
 on:
-  workflow_call:
-    inputs:
-      distribution-channel:
-        description: Distribution channel for release. It can be `beta`, `alpha` or any string.
-        type: string
-        required: true
-      renderer-template:
-        description: Define what vite template should be used to create renderer in case if renderer package doesn't exist
-        required: false
-        type: string
-        default: ''
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**.md"
+      - .editorconfig
+      - ".idea/**"
+      - ".vscode/**"
+  pull_request:
+    paths-ignore:
+      - "**.md"
+      - .editorconfig
+      - ".idea/**"
+      - ".vscode/**"
 
 concurrency:
   group: ${{github.workflow}}-${{ github.ref }}-${{inputs.distribution-channel}}
