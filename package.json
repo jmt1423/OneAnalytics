@@ -1,7 +1,7 @@
 {
   "name": "root",
   "description": "Secure boilerplate for Electron app based on Vite",
-  "version": "3.1.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "author": {
@@ -30,12 +30,17 @@
     "@npmcli/map-workspaces": "4.0.2",
     "@playwright/test": "1.49.0",
     "@types/node": "22.10.2",
+    "autoprefixer": "^10.4.20",
     "electron": "33.2.1",
     "electron-builder": "26.0.0-alpha.8",
     "glob": "11.0.0",
-    "playwright": "1.49.0"
+    "playwright": "1.49.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17"
   },
   "dependencies": {
-    "@vite-electron-builder/main": "*"
+    "@nextui-org/react": "^2.6.8",
+    "@vite-electron-builder/main": "*",
+    "framer-motion": "^11.15.0"
   }
 }

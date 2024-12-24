@@ -8,6 +8,7 @@ import { autoUpdater } from "./modules/AutoUpdater.js";
 import { allowInternalOrigins } from "./modules/BlockNotAllowdOrigins.js";
 import { allowExternalUrls } from "./modules/ExternalUrls.js";
 import { BrowserWindow, ipcMain } from "electron";
+// import { chromeDevToolsExtension } from "./modules/ChromeDevToolsExtension.js";
 
 function getCurrentPage() {
   const browserWindow = BrowserWindow.getFocusedWindow();
@@ -27,7 +28,7 @@ export async function initApp(initConfig: AppInitConfig) {
     .init(
       createWindowManagerModule({
         initConfig,
-        openDevTools: import.meta.env.DEV,
+        // openDevTools: import.meta.env.DEV,
       }),
     )
     .init(disallowMultipleAppInstance())
@@ -36,7 +37,7 @@ export async function initApp(initConfig: AppInitConfig) {
     .init(autoUpdater())
 
     // Install DevTools extension if needed
-    // .init(chromeDevToolsExtension({extension: 'VUEJS3_DEVTOOLS'}))
+    // .init(chromeDevToolsExtension({ extension: "REACT_DEVELOPER_TOOLS" }))
     // Security
     .init(
       allowInternalOrigins(
