@@ -1,8 +1,3 @@
-// import {versions} from './versions.js';
-import { ipcRenderer } from "electron";
+import { sendData } from "./sequelize/send-functions/send.js";
 
-export function sendData(channel: string, data: any) {
-  return ipcRenderer.invoke(channel, data);
-}
-
-// export { sha256sum, sendData };
+export { sendData };

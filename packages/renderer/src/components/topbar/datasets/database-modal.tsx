@@ -11,14 +11,11 @@ import {
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { sendData } from "@vite-electron-builder/preload";
 
 export default function CreateDatabaseModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [value, setValue] = useState("");
-  // const [formData, setFormData] = useState({
-  //   firstInput: "",
-  //   secondInput: "",
-  // });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -29,8 +26,8 @@ export default function CreateDatabaseModal() {
     setValue("");
   };
 
-  const onSubmit = () => {
-    console.log(value);
+  const onSubmit = async () => {
+    await sendData("create-database", value);
   };
 
   return (
