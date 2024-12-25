@@ -4,6 +4,7 @@ import React from "react";
 import { Button, Input, Checkbox, Link, Form } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import OneLogo from "@components/logos/OneLogo";
+import { NavLink } from "react-router";
 
 const LoginForm = () => {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -17,6 +18,7 @@ const LoginForm = () => {
 
   return (
     <div className="flex h-full w-full items-center justify-center">
+      <NavLink to="/home">Home</NavLink>
       <div className="flex w-full max-w-sm flex-col gap-4 rounded-large px-8 pb-10 pt-20">
         <div className="flex flex-col items-center pb-6">
           <OneLogo />

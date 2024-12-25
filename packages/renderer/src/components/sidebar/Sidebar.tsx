@@ -24,7 +24,7 @@ const Sidebar = ({ items, className }: SidebarProps) => {
           return (
             <div
               key={item.key}
-              className="w-full flex items-center justify-center h-12"
+              className="w-full flex items-center justify-center h-12 hover:bg-zinc-800"
             >
               <Tooltip
                 content={item.title}

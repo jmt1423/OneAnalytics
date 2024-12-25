@@ -200,7 +200,7 @@ const rowsPerPageObj: SelectionType[] = [
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "description", "actions"];
 
-export default function DatasetTable() {
+export default function DatasetHomeTable() {
   const [filterValue, setFilterValue] = React.useState("");
   const [visibleColumns, setVisibleColumns] = React.useState<Selection>(
     new Set(INITIAL_VISIBLE_COLUMNS),
@@ -260,7 +260,7 @@ export default function DatasetTable() {
 
       switch (columnKey) {
         case "name":
-          return <div>{user.name}</div>;
+          return <div aria-label="dataset name">{user.name}</div>;
         case "description":
           return (
             <div className="flex flex-col">
@@ -274,7 +274,12 @@ export default function DatasetTable() {
             <div className="relative flex justify-end items-center gap-2">
               <Dropdown>
                 <DropdownTrigger>
-                  <Button isIconOnly size="sm" variant="light">
+                  <Button
+                    isIconOnly
+                    size="sm"
+                    variant="light"
+                    aria-label="open actions"
+                  >
                     <VerticalDotsIcon className="text-default-300" />
                   </Button>
                 </DropdownTrigger>
@@ -317,10 +322,11 @@ export default function DatasetTable() {
 
   const topContent = React.useMemo(() => {
     return (
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4" aria-label="top content">
         <div className="flex justify-between gap-3 items-end ">
           <Input
             isClearable
+            aria-label="search datasets"
             className=" w-full sm:max-w-[44%]"
             placeholder="Search by name..."
             startContent={<SearchIcon />}
@@ -329,11 +335,27 @@ export default function DatasetTable() {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+            <div className="whitespace-nowrap">Rows per page</div>
+            <div className="min-w-[75px]">
+              <Select
+                onChange={onRowsPerPageChange}
+                defaultSelectedKeys={"5"}
+                aria-label="rows per page"
+              >
+                {rowsPerPageObj.map((rows) => (
+                  <SelectItem key={rows.key} aria-label="rows per page">
+                    {rows.label}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
+                  aria-label="column sort"
                 >
                   Columns
                 </Button>
@@ -353,21 +375,6 @@ export default function DatasetTable() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-          </div>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">
-            {datasets.length} Dashboards
-          </span>
-          <div className="flex items-center text-sm space-x-3">
-            <div className="whitespace-nowrap">Rows per page</div>
-            <div className="min-w-[75px]">
-              <Select onChange={onRowsPerPageChange} defaultSelectedKeys={"5"}>
-                {rowsPerPageObj.map((rows) => (
-                  <SelectItem key={rows.key}>{rows.label}</SelectItem>
-                ))}
-              </Select>
-            </div>
           </div>
         </div>
       </div>
@@ -405,7 +412,7 @@ export default function DatasetTable() {
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
       classNames={{
-        wrapper: "max-h-[300px] min-h-[325px]",
+        wrapper: "max-h-[450px] min-h-[450px]",
       }}
       sortDescriptor={sortDescriptor}
       topContent={topContent}

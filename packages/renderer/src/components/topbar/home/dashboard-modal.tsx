@@ -11,8 +11,10 @@ import {
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useLocation } from "react-router";
 
 export default function CreateDashboardModal() {
+  const location = useLocation();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [formData, setFormData] = useState({
     firstInput: "",
@@ -37,6 +39,7 @@ export default function CreateDashboardModal() {
 
   const onSubmit = () => {
     console.log(formData);
+    console.log(location.pathname);
   };
 
   return (
@@ -45,12 +48,13 @@ export default function CreateDashboardModal() {
         className="bg-transparent hover:bg-primary/20 rounded-full"
         onPress={onOpen}
       >
-        Create Dashboard
+        New Dashboard
       </Button>
       <Modal
         isOpen={isOpen}
         className="dark text-foreground"
         backdrop="blur"
+        aria-label="create dashboard modal"
         placement="center"
         onOpenChange={onOpenChange}
       >

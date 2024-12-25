@@ -293,7 +293,7 @@ export default function DashboardTable() {
           return <div>{user.name}</div>;
         case "description":
           return (
-            <div className="flex flex-col">
+            <div className="flex flex-col" aria-label="dashboard description">
               <p className="text-bold text-tiny capitalize text-default-400">
                 {user.description}
               </p>
@@ -305,6 +305,7 @@ export default function DashboardTable() {
               className="capitalize"
               color={statusColorMap[user.status]}
               size="sm"
+              aria-label="dashboard status"
               variant="flat"
             >
               {cellValue}
@@ -312,15 +313,25 @@ export default function DashboardTable() {
           );
         case "actions":
           return (
-            <div className="relative flex justify-end items-center gap-2">
+            <div
+              className="relative flex justify-end items-center gap-2"
+              aria-label="dashboard actions"
+            >
               <Dropdown>
                 <DropdownTrigger>
-                  <Button isIconOnly size="sm" variant="light">
+                  <Button
+                    isIconOnly
+                    size="sm"
+                    variant="light"
+                    aria-label="open actions"
+                  >
                     <VerticalDotsIcon className="text-default-300" />
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu className="text-black text-lg drop-shadow-md">
-                  <DropdownItem key="view">View</DropdownItem>
+                  <DropdownItem key="view" aria-label="test">
+                    View
+                  </DropdownItem>
                   <DropdownItem key="edit">Edit</DropdownItem>
                   <DropdownItem key="delete">Delete</DropdownItem>
                 </DropdownMenu>
@@ -364,13 +375,14 @@ export default function DashboardTable() {
             isClearable
             className="w-full sm:max-w-[44%]"
             placeholder="Search by name..."
+            aria-label="Search dashboards by name"
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
-            <Dropdown>
+            <Dropdown aria-label="status dropdown">
               <DropdownTrigger className="hidden sm:flex">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
@@ -381,7 +393,7 @@ export default function DashboardTable() {
               </DropdownTrigger>
               <DropdownMenu
                 disallowEmptySelection
-                aria-label="Table Columns"
+                aria-label="Status filters"
                 closeOnSelect={false}
                 selectedKeys={statusFilter}
                 selectionMode="multiple"
@@ -427,9 +439,15 @@ export default function DashboardTable() {
           <div className="flex items-center text-sm space-x-3">
             <div className="whitespace-nowrap">Rows per page</div>
             <div className="min-w-[75px]">
-              <Select onChange={onRowsPerPageChange} defaultSelectedKeys={"5"}>
+              <Select
+                onChange={onRowsPerPageChange}
+                defaultSelectedKeys={"5"}
+                aria-label="rows per page change"
+              >
                 {rowsPerPageObj.map((rows) => (
-                  <SelectItem key={rows.key}>{rows.label}</SelectItem>
+                  <SelectItem aria-label="number of rows" key={rows.key}>
+                    {rows.label}
+                  </SelectItem>
                 ))}
               </Select>
             </div>
@@ -454,6 +472,7 @@ export default function DashboardTable() {
           isCompact
           showControls
           showShadow
+          aria-label="change pages"
           color="primary"
           page={page}
           total={pages}
@@ -467,7 +486,7 @@ export default function DashboardTable() {
   return (
     <Table
       isHeaderSticky
-      aria-label="Example table with custom cells, pagination and sorting"
+      aria-label="Searchable table of dashboards"
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
       classNames={{

@@ -9,26 +9,38 @@ export const sidebarItems: SidebarType[] = [
   },
   {
     key: "projects",
-    href: "/",
-    icon: "solar:widget-2-outline",
+    href: "/projects",
+    icon: "solar:folder-2-linear",
     title: "Projects",
   },
   {
+    key: "dashboards",
+    href: "/dashboards",
+    icon: "solar:graph-linear",
+    title: "Dashboards",
+  },
+  {
+    key: "Datasets",
+    href: "/datasets",
+    icon: "solar:database-outline",
+    title: "Datasets",
+  },
+  {
     key: "tasks",
-    href: "/home",
+    href: "/tasks",
     icon: "solar:checklist-minimalistic-outline",
     title: "Tasks",
   },
   {
-    key: "analytics",
-    href: "/analytics",
-    icon: "solar:chart-outline",
-    title: "Analytics",
-  },
-  {
     key: "settings",
-    href: "/home",
+    href: "/settings",
     icon: "solar:settings-outline",
     title: "Settings",
+  },
+  {
+    key: "logout",
+    href: "/",
+    icon: "solar:login-3-linear",
+    title: "Logout",
   },
 ];
