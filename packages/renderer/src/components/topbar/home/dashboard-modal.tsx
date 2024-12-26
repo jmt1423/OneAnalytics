@@ -9,11 +9,11 @@ import {
   Input,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
-import { motion } from "framer-motion";
 import { useState } from "react";
 import { useLocation } from "react-router";
+import React from "react";
 
-export default function CreateDashboardModal() {
+export default React.memo(function CreateDashboardModal() {
   const location = useLocation();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [formData, setFormData] = useState({
@@ -51,9 +51,10 @@ export default function CreateDashboardModal() {
         New Dashboard
       </Button>
       <Modal
+        disableAnimation
         isOpen={isOpen}
-        className="dark text-foreground"
-        backdrop="blur"
+        className="dark text-foreground drop-shadow-xl"
+        backdrop="transparent"
         aria-label="create dashboard modal"
         placement="center"
         onOpenChange={onOpenChange}
@@ -62,25 +63,25 @@ export default function CreateDashboardModal() {
           {(onClose) => (
             <>
               <ModalHeader className="flex justify-center gap-1">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{
-                    delay: 0.2,
-                    duration: 0.4,
-                    scale: {
-                      type: "spring",
-                      visualDuration: 0.4,
-                      bounce: 0.7,
-                    },
-                  }}
-                >
-                  <Icon
-                    className="text-green-600"
-                    fontSize={25}
-                    icon="mage:dashboard-circle-chart-fill"
-                  />
-                </motion.div>
+                {/* <motion.div */}
+                {/*   initial={{ opacity: 0, scale: 0 }} */}
+                {/*   animate={{ opacity: 1, scale: 1 }} */}
+                {/*   transition={{ */}
+                {/*     delay: 0.2, */}
+                {/*     duration: 0.4, */}
+                {/*     scale: { */}
+                {/*       type: "spring", */}
+                {/*       visualDuration: 0.4, */}
+                {/*       bounce: 0.7, */}
+                {/*     }, */}
+                {/*   }} */}
+                {/* > */}
+                <Icon
+                  className="text-green-600"
+                  fontSize={25}
+                  icon="mage:dashboard-circle-chart-fill"
+                />
+                {/* </motion.div> */}
                 Creating Dashboard...
               </ModalHeader>
               <ModalBody>
@@ -121,4 +122,4 @@ export default function CreateDashboardModal() {
       </Modal>
     </>
   );
-}
+});

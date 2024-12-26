@@ -29,6 +29,11 @@ export default function CreateDatabaseModal() {
   const onSubmit = async () => {
     await sendData("create-database", value);
   };
+  const handleSubmit = () => {
+    onSubmit().catch((err) => {
+      console.log("error", err);
+    });
+  };
 
   return (
     <>
@@ -87,7 +92,7 @@ export default function CreateDatabaseModal() {
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Cancel
                 </Button>
-                <Button color="primary" onPress={onSubmit}>
+                <Button color="primary" onPress={handleSubmit}>
                   Submit
                 </Button>
               </ModalFooter>

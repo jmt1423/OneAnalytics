@@ -1,6 +1,6 @@
 import LogoSmall from "@components/logos/LogoSmall";
-import ImportExportDataset from "../home/dataset-modal";
-import CreateDashboardModal from "../home/dashboard-modal";
+// import ImportExportDataset from "../home/dataset-modal";
+// import CreateDashboardModal from "../home/dashboard-modal";
 import CreateDatabaseModal from "./database-modal";
 import {
   NavbarContent,
@@ -9,6 +9,12 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/react";
+import React from "react";
+
+const CreateDashboardModal = React.lazy(
+  () => import("../home/dashboard-modal"),
+);
+const ImportExportDataset = React.lazy(() => import("../home/dataset-modal"));
 
 export default function DatasetsNav() {
   return (

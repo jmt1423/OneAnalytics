@@ -8,10 +8,12 @@ import { autoUpdater } from "./modules/AutoUpdater.js";
 import { allowInternalOrigins } from "./modules/BlockNotAllowdOrigins.js";
 import { allowExternalUrls } from "./modules/ExternalUrls.js";
 import { registerSqlizeHandlers } from "./sequelize/SequelizeHandler.js";
+import { initDatabase } from "./sequelize/SqlInitModule.js";
 
 export async function initApp(initConfig: AppInitConfig) {
   // register IPC handlers
   registerSqlizeHandlers();
+  initDatabase();
 
   const moduleRunner = createModuleRunner()
     .init(

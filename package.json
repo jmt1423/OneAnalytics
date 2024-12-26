@@ -1,6 +1,6 @@
 {
-  "name": "root",
-  "description": "Secure boilerplate for Electron app based on Vite",
+  "name": "oneanalytics",
+  "description": "Data visualization software built by Skycraft Labs",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -41,6 +41,9 @@
   "dependencies": {
     "@nextui-org/react": "^2.6.8",
     "@vite-electron-builder/main": "*",
-    "framer-motion": "^11.15.0"
+    "csv-parser": "^3.1.0",
+    "electron-log": "^5.2.4",
+    "framer-motion": "^11.15.0",
+    "sqlite3": "^5.1.7"
   }
 }

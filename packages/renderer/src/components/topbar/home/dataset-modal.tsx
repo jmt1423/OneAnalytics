@@ -12,6 +12,7 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
+import { openFilePicker } from "@vite-electron-builder/preload";
 
 interface DashboardType {
   name: string;
@@ -26,15 +27,28 @@ const tempDashboards: DashboardType[] = [
   { name: "Customer leads", description: "leads data from 2023-2024" },
 ];
 
-export default function ImportExportDataset() {
+export default React.memo(function ImportExportDataset() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [fileName, setFileName] = React.useState<string>("");
+
+  const handleSubmit = () => {
+    onSubmit().catch((err) => {
+      console.log("error", err);
+    });
+  };
+  const onSubmit = async (): Promise<void> => {
+    const name: string | null = await openFilePicker("dialog:openFile");
+    if (name) {
+      setFileName(name);
+    }
+  };
 
   const handleOpen = () => {
     onOpen();
   };
   const [selected, setSelected] = React.useState<string | null>("import");
-
-  const ease: number[] = [0.36, 0.66, 0.4, 1];
+  // const [fileName, setFileName] = React.useState<string | null>(null);
 
   return (
     <>
@@ -50,43 +64,10 @@ export default function ImportExportDataset() {
         </Button>
       </div>
       <Modal
-        backdrop="blur"
+        backdrop="transparent"
         isOpen={isOpen}
         onClose={onClose}
         placement="center"
-        motionProps={{
-          variants: {
-            enter: {
-              scale: 1,
-              y: "var(--slide-enter)",
-              opacity: 1,
-              transition: {
-                scale: {
-                  duration: 0.4,
-                  ease: ease,
-                },
-                opacity: {
-                  duration: 0.4,
-                  ease: ease,
-                },
-                y: {
-                  type: "spring",
-                  bounce: 0,
-                  duration: 0.6,
-                },
-              },
-            },
-            exit: {
-              scale: 1.1, // NextUI default 1.03
-              y: "var(--slide-exit)",
-              opacity: 0,
-              transition: {
-                duration: 0.3,
-                ease: ease,
-              },
-            },
-          },
-        }}
       >
         <ModalContent className="dark text-foreground">
           {() => (
@@ -104,63 +85,89 @@ export default function ImportExportDataset() {
                   onSelectionChange={(key) => setSelected(key as string | null)}
                 >
                   <Tab key="import" title="Import Data">
-                    <form className="flex flex-col gap-4">
-                      <Button
-                        color="success"
-                        variant="ghost"
-                        aria-label="Choose File"
-                      >
-                        Choose a file
-                      </Button>
-                      <Input isRequired label="Description" type="text" />
-
-                      <div className="flex gap-2 justify-end">
+                    {selected === "import" && (
+                      <form className="flex flex-col gap-4">
+                        {/* <input */}
+                        {/*   type="file" */}
+                        {/*   id="file-input" */}
+                        {/*   accept={supportedFileTypes */}
+                        {/*     .map((type) => `.${type}`) */}
+                        {/*     .join(",")} */}
+                        {/*   className="hidden" */}
+                        {/*   onChange={(e) => { */}
+                        {/*     const file = e.target.files?.[0]; */}
+                        {/*     if (file) { */}
+                        {/*       setFileName(file.name); */}
+                        {/*       console.log("File selected:", file.name); */}
+                        {/*     } */}
+                        {/*   }} */}
+                        {/* /> */}
                         <Button
-                          fullWidth
-                          color="primary"
+                          color="success"
                           variant="ghost"
-                          aria-label="upload button"
+                          aria-label="Choose File"
+                          onPress={handleSubmit}
+                          // onPress={() =>
+                          //   document.getElementById("file-input")?.click()
+                          // }
                         >
-                          Upload
+                          Choose a file
                         </Button>
-                      </div>
-                    </form>
+                        <div className="text-small text-gray-400">
+                          {fileName}
+                        </div>
+
+                        <Input isRequired label="Description" type="text" />
+                        <div className="flex gap-2 justify-end">
+                          <Button
+                            fullWidth
+                            color="primary"
+                            variant="ghost"
+                            aria-label="upload button"
+                          >
+                            Upload
+                          </Button>
+                        </div>
+                      </form>
+                    )}
                   </Tab>
                   <Tab key="export" title="Export Data">
-                    <form className="flex flex-col gap-4 h-fit">
-                      <Select
-                        isRequired
-                        className="max-w-full"
-                        label="Your Dashboards"
-                        placeholder="Select a dashboard for export"
-                      >
-                        {tempDashboards.map((dataset) => (
-                          <SelectItem key={dataset.name}>
-                            {dataset.name}
-                          </SelectItem>
-                        ))}
-                      </Select>
-                      <Select
-                        isRequired
-                        className="max-w-full"
-                        label="File Types"
-                        placeholder="Select your desired export option"
-                      >
-                        {supportedFileTypes.map((filetype) => (
-                          <SelectItem key={filetype}>{filetype}</SelectItem>
-                        ))}
-                      </Select>
-                      <div className="flex gap-2 justify-end">
-                        <Button
-                          fullWidth
-                          color="primary"
-                          variant="ghost"
-                          aria-label="export button"
+                    {selected === "export" && (
+                      <form className="flex flex-col gap-4 h-fit">
+                        <Select
+                          isRequired
+                          className="max-w-full"
+                          label="Your Dashboards"
+                          placeholder="Select a dashboard for export"
                         >
-                          Export
-                        </Button>
-                      </div>
-                    </form>
+                          {tempDashboards.map((dataset) => (
+                            <SelectItem key={dataset.name}>
+                              {dataset.name}
+                            </SelectItem>
+                          ))}
+                        </Select>
+                        <Select
+                          isRequired
+                          className="max-w-full"
+                          label="File Types"
+                          placeholder="Select your desired export option"
+                        >
+                          {supportedFileTypes.map((filetype) => (
+                            <SelectItem key={filetype}>{filetype}</SelectItem>
+                          ))}
+                        </Select>
+                        <div className="flex gap-2 justify-end">
+                          <Button
+                            fullWidth
+                            color="primary"
+                            variant="ghost"
+                            aria-label="export button"
+                          >
+                            Export
+                          </Button>
+                        </div>
+                      </form>
+                    )}
                   </Tab>
                 </Tabs>
               </ModalBody>
@@ -170,4 +177,4 @@ export default function ImportExportDataset() {
       </Modal>
     </>
   );
-}
+});
