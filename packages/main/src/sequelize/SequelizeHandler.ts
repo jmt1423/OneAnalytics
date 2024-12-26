@@ -1,7 +1,7 @@
 import { dialog, ipcMain } from "electron";
 import path from "path";
-import csv from "csv-parser";
 import fs from "fs";
+import Papa from "papaparse";
 
 export function registerSqlizeHandlers() {
   ipcMain.handle("create-database", async (_event, filePath: string) => {
@@ -17,16 +17,21 @@ export function registerSqlizeHandlers() {
     if (result.canceled || result.filePaths.length === 0) {
       return null;
     }
-    console.log(result.filePaths[0]);
-    const results: any = [];
-    fs.createReadStream(result.filePaths[0])
-      .pipe(csv())
-      .on("data", (data) => {
-        results.push(data);
-      })
-      .on("end", () => {
-        console.log(results);
+
+    fs.readFile(result.filePaths[0], "utf8", (err, data) => {
+      if (err) {
+        console.log("cannot read file: " + err);
+        return;
+      }
+      Papa.parse(data, {
+        dynamicTyping: true,
+        complete: (result) => {
+          console.log(result.data.slice(0, 10));
+          console.log(result.data.length);
+          console.log(result.meta);
+        },
       });
+    });
 
     return path.basename(result.filePaths[0]);
   });
