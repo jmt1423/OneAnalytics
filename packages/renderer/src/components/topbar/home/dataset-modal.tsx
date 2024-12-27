@@ -1,3 +1,4 @@
+import log from "electron-log";
 import React from "react";
 import {
   Modal,
@@ -12,6 +13,7 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
+import { openFilePicker } from "@vite-electron-builder/preload";
 
 interface DashboardType {
   name: string;
@@ -28,11 +30,25 @@ const tempDashboards: DashboardType[] = [
 
 export default function ImportExportDataset() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selected, setSelected] = React.useState<string | null>("import");
+  const [file, setFile] = React.useState<string | null>(null);
 
   const handleOpen = () => {
     onOpen();
   };
-  const [selected, setSelected] = React.useState<string | null>("import");
+
+  const onFileChoice = () => {
+    handleFileOpen().catch((err) => {
+      log.error("Error in renderer, cannot open file", err);
+    });
+  };
+
+  const handleFileOpen = async () => {
+    const name: string | null = await openFilePicker("dialog:openFile");
+    if (name) {
+      setFile(name);
+    }
+  };
 
   const ease: number[] = [0.36, 0.66, 0.4, 1];
 
@@ -109,9 +125,11 @@ export default function ImportExportDataset() {
                         color="success"
                         variant="ghost"
                         aria-label="Choose File"
+                        onPress={onFileChoice}
                       >
                         Choose a file
                       </Button>
+                      <div className="text-sm text-gray-400">{file}</div>
                       <Input isRequired label="Description" type="text" />
 
                       <div className="flex gap-2 justify-end">
