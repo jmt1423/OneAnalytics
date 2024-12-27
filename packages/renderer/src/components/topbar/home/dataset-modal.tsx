@@ -13,6 +13,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { openFilePicker } from "@vite-electron-builder/preload";
+import { processCsv } from "@vite-electron-builder/preload";
 
 interface DashboardType {
   name: string;
@@ -32,21 +33,32 @@ export default React.memo(function ImportExportDataset() {
 
   const [fileName, setFileName] = React.useState<string>("");
 
-  const handleSubmit = () => {
-    onSubmit().catch((err) => {
+  const handleFileChoice = () => {
+    fileChosen().catch((err) => {
       console.log("error", err);
     });
   };
-  const onSubmit = async (): Promise<void> => {
+  const fileChosen = async (): Promise<void> => {
     const name: string | null = await openFilePicker("dialog:openFile");
     if (name) {
       setFileName(name);
     }
   };
 
+  const handleProcessing = () => {
+    processFile().catch((err) => {
+      console.log("error: ", err);
+    });
+  };
+
+  const processFile = async (): Promise<void> => {
+    await processCsv("process-file");
+  };
+
   const handleOpen = () => {
     onOpen();
   };
+
   const [selected, setSelected] = React.useState<string | null>("import");
   // const [fileName, setFileName] = React.useState<string | null>(null);
 
@@ -87,29 +99,11 @@ export default React.memo(function ImportExportDataset() {
                   <Tab key="import" title="Import Data">
                     {selected === "import" && (
                       <form className="flex flex-col gap-4">
-                        {/* <input */}
-                        {/*   type="file" */}
-                        {/*   id="file-input" */}
-                        {/*   accept={supportedFileTypes */}
-                        {/*     .map((type) => `.${type}`) */}
-                        {/*     .join(",")} */}
-                        {/*   className="hidden" */}
-                        {/*   onChange={(e) => { */}
-                        {/*     const file = e.target.files?.[0]; */}
-                        {/*     if (file) { */}
-                        {/*       setFileName(file.name); */}
-                        {/*       console.log("File selected:", file.name); */}
-                        {/*     } */}
-                        {/*   }} */}
-                        {/* /> */}
                         <Button
                           color="success"
                           variant="ghost"
                           aria-label="Choose File"
-                          onPress={handleSubmit}
-                          // onPress={() =>
-                          //   document.getElementById("file-input")?.click()
-                          // }
+                          onPress={handleFileChoice}
                         >
                           Choose a file
                         </Button>
@@ -123,6 +117,7 @@ export default React.memo(function ImportExportDataset() {
                             fullWidth
                             color="primary"
                             variant="ghost"
+                            onPress={handleProcessing}
                             aria-label="upload button"
                           >
                             Upload

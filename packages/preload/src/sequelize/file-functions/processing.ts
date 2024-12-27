@@ -6,3 +6,6 @@ export function sendData(channel: string, data: any) {
 export function openFilePicker(channel: string): Promise<string | null> {
   return ipcRenderer.invoke(channel);
 }
+export function processCsv(channel: string): Promise<void> {
+  return ipcRenderer.invoke(channel);
+}

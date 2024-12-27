@@ -33,6 +33,7 @@
     "autoprefixer": "^10.4.20",
     "electron": "33.2.1",
     "electron-builder": "26.0.0-alpha.8",
+    "electron-devtools-installer": "^4.0.0",
     "glob": "11.0.0",
     "playwright": "1.49.0",
     "postcss": "^8.4.49",
@@ -40,11 +41,15 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.6.8",
+    "@sequelize/sqlite3": "^7.0.0-alpha.43",
     "@types/papaparse": "^5.3.15",
     "@vite-electron-builder/main": "*",
     "electron-log": "^5.2.4",
     "framer-motion": "^11.15.0",
     "papaparse": "^5.4.1",
-    "sqlite3": "^5.1.7"
+    "sequelize": "^6.37.5",
+    "sqlite3": "^5.1.7",
+    "ts-node": "^10.9.2",
+    "umzug": "^3.8.2"
   }
 }

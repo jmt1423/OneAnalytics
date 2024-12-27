@@ -7,13 +7,11 @@ import { hardwareAccelerationMode } from "./modules/HardwareAccelerationModule.j
 import { autoUpdater } from "./modules/AutoUpdater.js";
 import { allowInternalOrigins } from "./modules/BlockNotAllowdOrigins.js";
 import { allowExternalUrls } from "./modules/ExternalUrls.js";
-import { registerSqlizeHandlers } from "./sequelize/SequelizeHandler.js";
-import { initDatabase } from "./sequelize/SqlInitModule.js";
+import { initDatabaseIO } from "./sequelize/DatabaseIO/index.js";
 
 export async function initApp(initConfig: AppInitConfig) {
-  // register IPC handlers
-  registerSqlizeHandlers();
-  initDatabase();
+  // register handlers and functions
+  initDatabaseIO();
 
   const moduleRunner = createModuleRunner()
     .init(
@@ -29,6 +27,7 @@ export async function initApp(initConfig: AppInitConfig) {
 
     // Install DevTools extension if needed
     // .init(chromeDevToolsExtension({ extension: "REACT_DEVELOPER_TOOLS" }))
+
     // Security
     .init(
       allowInternalOrigins(
