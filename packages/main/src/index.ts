@@ -7,11 +7,11 @@ import { hardwareAccelerationMode } from "./modules/HardwareAccelerationModule.j
 import { autoUpdater } from "./modules/AutoUpdater.js";
 import { allowInternalOrigins } from "./modules/BlockNotAllowdOrigins.js";
 import { allowExternalUrls } from "./modules/ExternalUrls.js";
-import { registerSqlizeHandlers } from "./sequelize/SequelizeHandler.js";
+import { initCreateDatabaseOps } from "./sequelize/database-io/index.js";
 
 export async function initApp(initConfig: AppInitConfig) {
-  // register IPC handlers
-  registerSqlizeHandlers();
+  // initializing handlers and database operations
+  initCreateDatabaseOps();
 
   const moduleRunner = createModuleRunner()
     .init(

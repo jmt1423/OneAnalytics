@@ -1,3 +1,3 @@
-import { sendData } from "./sequelize/send-functions/send.js";
+import { openFilePicker } from "./sequelize/file-functions/filePicker.js";
 
-export { sendData };
+export { openFilePicker };

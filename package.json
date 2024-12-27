@@ -1,6 +1,6 @@
 {
-  "name": "root",
-  "description": "Secure boilerplate for Electron app based on Vite",
+  "name": "oneanalytics",
+  "description": "Data visualization software",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -29,7 +29,8 @@
   "devDependencies": {
     "@npmcli/map-workspaces": "4.0.2",
     "@playwright/test": "1.49.0",
-    "@types/node": "22.10.2",
+    "@types/node": "^22.10.2",
+    "@types/validator": "^13.12.2",
     "autoprefixer": "^10.4.20",
     "electron": "33.2.1",
     "electron-builder": "26.0.0-alpha.8",
@@ -41,6 +42,12 @@
   "dependencies": {
     "@nextui-org/react": "^2.6.8",
     "@vite-electron-builder/main": "*",
-    "framer-motion": "^11.15.0"
+    "electron-log": "^5.2.4",
+    "framer-motion": "^11.15.0",
+    "papaparse": "^5.4.1",
+    "reflect-metadata": "^0.2.2",
+    "sequelize": "^6.37.5",
+    "sequelize-typescript": "^2.1.6",
+    "sqlite3": "^5.1.7"
   }
 }

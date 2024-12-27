@@ -11,7 +11,6 @@ import {
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { sendData } from "@vite-electron-builder/preload";
 
 export default function CreateDatabaseModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -26,9 +25,7 @@ export default function CreateDatabaseModal() {
     setValue("");
   };
 
-  const onSubmit = async () => {
-    await sendData("create-database", value);
-  };
+  const onSubmit = async () => {};
 
   return (
     <>
