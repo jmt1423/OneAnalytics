@@ -1,7 +1,5 @@
-import { app, dialog } from "electron";
+import { dialog } from "electron";
 import path from "path";
-import fs from "fs";
-import Papa from "papaparse";
 import log from "electron-log";
 
 export class ProcessCsv {

@@ -4,6 +4,10 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
+  optimizeDeps: {
+    include: ["@nextui-org/react", "@nextui-org/theme"],
+  },
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "../"),

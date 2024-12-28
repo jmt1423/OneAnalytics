@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const OneLogo = () => {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div title="OneLogo" className="flex flex-col items-center justify-center">
       <motion.div
         className="flex items-center justify-center"
         initial="hidden"
