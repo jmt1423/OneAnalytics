@@ -1,5 +1,6 @@
-import {resolveModuleExportNames} from 'mlly';
-import {getChromeMajorVersion} from '@vite-electron-builder/electron-versions';
+/// <reference types="vitest" />
+import { resolveModuleExportNames } from "mlly";
+import { getChromeMajorVersion } from "@vite-electron-builder/electron-versions";
 
 export default /**
  * @type {import('vite').UserConfig}
@@ -8,19 +9,19 @@ export default /**
 ({
   build: {
     ssr: true,
-    sourcemap: 'inline',
-    outDir: 'dist',
+    sourcemap: "inline",
+    outDir: "dist",
     target: `chrome${getChromeMajorVersion()}`,
-    assetsDir: '.',
+    assetsDir: ".",
     lib: {
-      entry: ['src/exposed.ts', 'virtual:browser.js'],
+      entry: ["src/exposed.ts", "virtual:browser.js"],
     },
     rollupOptions: {
       output: [
         {
           // ESM preload scripts must have the .mjs extension
           // https://www.electronjs.org/docs/latest/tutorial/esm#esm-preload-scripts-must-have-the-mjs-extension
-          entryFileNames: '[name].mjs',
+          entryFileNames: "[name].mjs",
         },
       ],
     },
@@ -28,8 +29,11 @@ export default /**
     reportCompressedSize: false,
   },
   plugins: [mockExposed(), handleHotReload()],
+  test: {
+    globals: true,
+    include: ["unit-tests/**/*.test.ts"],
+  },
 });
-
 
 /**
  * This plugin creates a browser (renderer) version of `preload` package.
@@ -49,11 +53,11 @@ export default /**
  * ```
  */
 function mockExposed() {
-  const virtualModuleId = 'virtual:browser.js';
-  const resolvedVirtualModuleId = '\0' + virtualModuleId;
+  const virtualModuleId = "virtual:browser.js";
+  const resolvedVirtualModuleId = "\0" + virtualModuleId;
 
   return {
-    name: 'electron-main-exposer',
+    name: "electron-main-exposer",
     resolveId(id) {
       if (id.endsWith(virtualModuleId)) {
         return resolvedVirtualModuleId;
@@ -61,22 +65,21 @@ function mockExposed() {
     },
     async load(id) {
       if (id === resolvedVirtualModuleId) {
-        const exportedNames = await resolveModuleExportNames('./src/index.ts', {
+        const exportedNames = await resolveModuleExportNames("./src/index.ts", {
           url: import.meta.url,
         });
         return exportedNames.reduce((s, key) => {
           return (
             s +
-            (key === 'default'
+            (key === "default"
               ? `export default globalThis['${btoa(key)}'];\n`
               : `export const ${key} = globalThis['${btoa(key)}'];\n`)
           );
-        }, '');
+        }, "");
       }
     },
   };
 }
-
 
 /**
  * Implement Electron webview reload when some file was changed
@@ -87,19 +90,23 @@ function handleHotReload() {
   let rendererWatchServer = null;
 
   return {
-    name: '@vite-electron-builder/preload-process-hot-reload',
+    name: "@vite-electron-builder/preload-process-hot-reload",
 
     config(config, env) {
-      if (env.mode !== 'development') {
+      if (env.mode !== "development") {
         return;
       }
 
-      const rendererWatchServerProvider = config.plugins.find(p => p.name === '@vite-electron-builder/renderer-watch-server-provider');
+      const rendererWatchServerProvider = config.plugins.find(
+        (p) =>
+          p.name === "@vite-electron-builder/renderer-watch-server-provider",
+      );
       if (!rendererWatchServerProvider) {
-        throw new Error('Renderer watch server provider not found');
+        throw new Error("Renderer watch server provider not found");
       }
 
-      rendererWatchServer = rendererWatchServerProvider.api.provideRendererWatchServer();
+      rendererWatchServer =
+        rendererWatchServerProvider.api.provideRendererWatchServer();
 
       return {
         build: {
@@ -114,7 +121,7 @@ function handleHotReload() {
       }
 
       rendererWatchServer.ws.send({
-        type: 'full-reload',
+        type: "full-reload",
       });
     },
   };
