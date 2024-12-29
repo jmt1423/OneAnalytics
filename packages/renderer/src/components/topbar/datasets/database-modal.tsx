@@ -25,7 +25,7 @@ export default function CreateDatabaseModal() {
     setValue("");
   };
 
-  const onSubmit = async () => {};
+  const onSubmit = () => {};
 
   return (
     <>
