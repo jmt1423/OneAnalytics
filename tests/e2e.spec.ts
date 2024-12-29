@@ -4,6 +4,7 @@ import { expect, test as base } from "@playwright/test";
 import type { BrowserWindow } from "electron";
 import { globSync } from "glob";
 import { platform } from "node:process";
+import log from "electron-log";
 
 process.env.PLAYWRIGHT_TEST = "true";
 
@@ -19,9 +20,9 @@ const test = base.extend<TestFixtures>({
       /**
        * Executable path depends on root package name!
        */
-      let executablePattern = "dist/*/root{,.*}";
+      let executablePattern = "dist/*/oneanalytics{,.*}";
       if (platform === "darwin") {
-        executablePattern += "/Contents/*/root";
+        executablePattern += "/Contents/*/oneanalytics";
       }
 
       const [executablePath] = globSync(executablePattern);
@@ -67,19 +68,17 @@ const test = base.extend<TestFixtures>({
   },
 });
 
-test("Main window state", async ({ electronApp, page }) => {
+test("Entry window state", async ({ electronApp, page }) => {
   const window: JSHandle<BrowserWindow> = await electronApp.browserWindow(page);
   const windowState = await window.evaluate(
     (
       mainWindow,
     ): Promise<{
       isVisible: boolean;
-      isDevToolsOpened: boolean;
       isCrashed: boolean;
     }> => {
       const getState = () => ({
         isVisible: mainWindow.isVisible(),
-        isDevToolsOpened: mainWindow.webContents.isDevToolsOpened(),
         isCrashed: mainWindow.webContents.isCrashed(),
       });
 
@@ -101,78 +100,42 @@ test("Main window state", async ({ electronApp, page }) => {
   expect(windowState.isVisible, "The main window was not visible").toEqual(
     true,
   );
-  expect(windowState.isDevToolsOpened, "The DevTools panel was open").toEqual(
-    false,
-  );
 });
-
-test.describe("Main window web content", async () => {
-  // test("The main window has an interactive button", async ({ page }) => {
-  //   const element = page.getByRole("button");
-  //   await expect(element).toBeVisible();
-  //   await expect(element).toHaveText("count is 0");
-  //   await element.click();
-  //   await expect(element).toHaveText("count is 1");
-  // });
-
-  test("The main window has a vite logo", async ({ page }) => {
-    const element = page.getByAltText("Vite logo");
+test.describe("Login Page content", async () => {
+  test("Should have One Logo", async ({ page }) => {
+    const element = page.getByTitle("OneLogo");
     await expect(element).toBeVisible();
-    await expect(element).toHaveRole("img");
-    const imgState = await element.evaluate(
-      (img: HTMLImageElement) => img.complete,
-    );
-    const imgNaturalWidth = await element.evaluate(
-      (img: HTMLImageElement) => img.naturalWidth,
-    );
+    console.log(page.url());
+  });
+  test("should have a login button", async ({ page }) => {
+    const element = page.getByText("Log In");
+    await expect(element).toBeVisible();
+  });
+});
+test.describe("Home page content", async () => {
+  test("Should have sidebar", async ({ page }) => {
+    const currentUrl = page.url(); // e.g., file:///path/to/app/index.html
+    const baseUrl = currentUrl.split("#")[0]; // Extract everything before the hash
 
-    expect(imgState).toEqual(true);
-    expect(imgNaturalWidth).toBeGreaterThan(0);
+    // Construct the target URL with HashRouter
+    const targetUrl = `${baseUrl}#/home`;
+
+    // Navigate to the /home route
+    await page.goto(targetUrl, { waitUntil: "load" });
+
+    // Perform assertions
+    const element = page.getByText("Datasets");
+    await expect(element).toBeVisible();
   });
 });
 
-// test.describe('Preload context should be exposed', async () => {
-//   test.describe(`versions should be exposed`, async () => {
-//     test('with same type`', async ({page}) => {
-//       const type = await page.evaluate(() => typeof globalThis[btoa('versions')]);
-//       expect(type).toEqual('object');
-//     });
-//
-//     test('with same value', async ({page, electronVersions}) => {
-//       const value = await page.evaluate(() => globalThis[btoa('versions')]);
-//       expect(value).toEqual(electronVersions);
-//     });
-//   });
-//
-//   test.describe(`sha256sum should be exposed`, async () => {
-//     test('with same type`', async ({page}) => {
-//       const type = await page.evaluate(() => typeof globalThis[btoa('sha256sum')]);
-//       expect(type).toEqual('function');
-//     });
-//
-//     test('with same behavior', async ({page}) => {
-//       const testString = btoa(`${Date.now() * Math.random()}`);
-//       const expectedValue = createHash('sha256').update(testString).digest('hex');
-//       const value = await page.evaluate((str) => globalThis[btoa('sha256sum')](str), testString);
-//       expect(value).toEqual(expectedValue);
-//     });
-//   });
-//
-//   test.describe(`send should be exposed`, async () => {
-//     test('with same type`', async ({page}) => {
-//       const type = await page.evaluate(() => typeof globalThis[btoa('send')]);
-//       expect(type).toEqual('function');
-//     });
-//
-//     test('with same behavior', async ({page, electronApp}) => {
-//       await electronApp.evaluate(async ({ipcMain}) => {
-//         ipcMain.handle('test', (event, message) => btoa(message));
-//       });
-//
-//       const testString = btoa(`${Date.now() * Math.random()}`);
-//       const expectedValue = btoa(testString);
-//       const value = await page.evaluate(async (str) => await globalThis[btoa('send')]('test', str), testString);
-//       expect(value).toEqual(expectedValue);
-//     });
-// });
-// });
+test.describe("Preload context should be exposed", async () => {
+  test.describe(`processing csv should be exposed`, async () => {
+    test("with same type`", async ({ page }) => {
+      const type = await page.evaluate(
+        () => typeof globalThis[btoa("openFilePicker")],
+      );
+      expect(type).toEqual("function");
+    });
+  });
+});

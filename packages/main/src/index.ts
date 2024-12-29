@@ -7,27 +7,17 @@ import { hardwareAccelerationMode } from "./modules/HardwareAccelerationModule.j
 import { autoUpdater } from "./modules/AutoUpdater.js";
 import { allowInternalOrigins } from "./modules/BlockNotAllowdOrigins.js";
 import { allowExternalUrls } from "./modules/ExternalUrls.js";
-import { BrowserWindow, ipcMain } from "electron";
+import { initCreateDatabaseOps } from "./TypeORM/database-io/index.js";
 
-function getCurrentPage() {
-  const browserWindow = BrowserWindow.getFocusedWindow();
-  if (!browserWindow) {
-    console.log("no focused window");
-  }
-  const currURL = browserWindow?.webContents.getURL();
-  console.log("Current URL: " + currURL);
-}
 export async function initApp(initConfig: AppInitConfig) {
-  ipcMain.handle("read-csv", async (_event, filePath: string) => {
-    console.log("read-csv called file:" + filePath);
-    getCurrentPage();
-    return { success: true };
-  });
+  // initializing handlers and database operations
+  initCreateDatabaseOps();
+
   const moduleRunner = createModuleRunner()
     .init(
       createWindowManagerModule({
         initConfig,
-        openDevTools: import.meta.env.DEV,
+        // openDevTools: import.meta.env.DEV,
       }),
     )
     .init(disallowMultipleAppInstance())
@@ -36,7 +26,7 @@ export async function initApp(initConfig: AppInitConfig) {
     .init(autoUpdater())
 
     // Install DevTools extension if needed
-    // .init(chromeDevToolsExtension({extension: 'VUEJS3_DEVTOOLS'}))
+    // .init(chromeDevToolsExtension({ extension: "REACT_DEVELOPER_TOOLS" }))
     // Security
     .init(
       allowInternalOrigins(

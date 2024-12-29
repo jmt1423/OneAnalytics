@@ -15,6 +15,15 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Alias Paths */
+    "baseUrl": "./",
+    "paths": {
+      "@*": ["src/*"],
+      "@features/*": ["src/features/*"],
+      "@routes/*": ["src/app/routes/*"],
+      "@components/*": ["src/components/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -22,5 +31,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src", "unit-tests/**/*"]
 }

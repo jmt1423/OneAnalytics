@@ -1,7 +1,7 @@
 {
-  "name": "root",
-  "description": "Secure boilerplate for Electron app based on Vite",
-  "version": "3.1.0",
+  "name": "oneanalytics",
+  "description": "Data visualization software",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "author": {
@@ -17,9 +17,10 @@
     "node": ">=23.0.0"
   },
   "scripts": {
-    "build": "npm run build -ws --if-present",
+    "build": "npx tailwindcss -o ./packages/renderer/src/styles/build.css --minify && npm run build -ws --if-present",
     "compile": "npm run build && electron-builder build --config electron-builder.mjs",
     "test": "npx playwright test ./tests/e2e.spec.ts",
+    "unit": "vitest",
     "start": "node packages/dev-mode.js",
     "typecheck": "npm run typecheck -ws --if-present",
     "create-renderer": "cd packages && npm create vite@latest renderer",
@@ -27,15 +28,31 @@
     "init": "npm run create-renderer && npm run integrate-renderer && npm install"
   },
   "devDependencies": {
+    "@iconify/react": "^5.1.0",
     "@npmcli/map-workspaces": "4.0.2",
     "@playwright/test": "1.49.0",
-    "@types/node": "22.10.2",
+    "@types/node": "^22.10.2",
+    "@types/validator": "^13.12.2",
     "electron": "33.2.1",
     "electron-builder": "26.0.0-alpha.8",
     "glob": "11.0.0",
-    "playwright": "1.49.0"
+    "playwright": "1.49.0",
+    "postcss": "^8.4.49",
+    "vitest": "^2.1.8"
   },
   "dependencies": {
-    "@vite-electron-builder/main": "*"
+    "@nextui-org/react": "^2.6.10",
+    "@types/papaparse": "^5.3.15",
+    "@vite-electron-builder/main": "*",
+    "autoprefixer": "^10.4.20",
+    "electron-devtools-installer": "^4.0.0",
+    "electron-log": "^5.2.4",
+    "framer-motion": "^11.15.0",
+    "papaparse": "^5.4.1",
+    "recharts": "^2.15.0",
+    "sqlite3": "^5.1.7",
+    "tailwindcss": "^3.4.17",
+    "typeorm": "^0.3.20",
+    "usehooks-ts": "^3.1.0"
   }
 }
