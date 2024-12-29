@@ -34,5 +34,6 @@ export function initDatabase() {
         log.info("Created and closed connection to database");
       }
     });
+    return "success";
   }
 }

@@ -4,6 +4,7 @@ import { expect, test as base } from "@playwright/test";
 import type { BrowserWindow } from "electron";
 import { globSync } from "glob";
 import { platform } from "node:process";
+import log from "electron-log";
 
 process.env.PLAYWRIGHT_TEST = "true";
 
@@ -21,7 +22,7 @@ const test = base.extend<TestFixtures>({
        */
       let executablePattern = "dist/*/oneanalytics{,.*}";
       if (platform === "darwin") {
-        executablePattern += "/Contents/*/root";
+        executablePattern += "/Contents/*/oneanalytics";
       }
 
       const [executablePath] = globSync(executablePattern);
@@ -67,7 +68,7 @@ const test = base.extend<TestFixtures>({
   },
 });
 
-test("Main window state", async ({ electronApp, page }) => {
+test("Entry window state", async ({ electronApp, page }) => {
   const window: JSHandle<BrowserWindow> = await electronApp.browserWindow(page);
   const windowState = await window.evaluate(
     (
@@ -103,6 +104,27 @@ test("Main window state", async ({ electronApp, page }) => {
 test.describe("Login Page content", async () => {
   test("Should have One Logo", async ({ page }) => {
     const element = page.getByTitle("OneLogo");
+    await expect(element).toBeVisible();
+    console.log(page.url());
+  });
+  test("should have a login button", async ({ page }) => {
+    const element = page.getByText("Log In");
+    await expect(element).toBeVisible();
+  });
+});
+test.describe("Home page content", async () => {
+  test("Should have sidebar", async ({ page }) => {
+    const currentUrl = page.url(); // e.g., file:///path/to/app/index.html
+    const baseUrl = currentUrl.split("#")[0]; // Extract everything before the hash
+
+    // Construct the target URL with HashRouter
+    const targetUrl = `${baseUrl}#/home`;
+
+    // Navigate to the /home route
+    await page.goto(targetUrl, { waitUntil: "load" });
+
+    // Perform assertions
+    const element = page.getByText("Datasets");
     await expect(element).toBeVisible();
   });
 });
