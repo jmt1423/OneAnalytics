@@ -19,6 +19,6 @@
   "devDependencies": {
     "@vite-electron-builder/electron-versions": "*",
     "typescript": "5.7.2",
-    "vite": "6.0.5"
+    "vite": "6.0.6"
   }
 }
