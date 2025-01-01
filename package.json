@@ -31,7 +31,7 @@
     "@iconify/react": "^5.1.0",
     "@npmcli/map-workspaces": "4.0.2",
     "@playwright/test": "1.49.0",
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.10.3",
     "@types/validator": "^13.12.2",
     "electron": "33.2.1",
     "electron-builder": "26.0.0-alpha.8",
