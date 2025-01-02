@@ -3,6 +3,7 @@ import { app } from "electron";
 import sqlite3 from "sqlite3";
 import path from "path";
 import fs from "fs";
+import { error } from "console";
 
 export function initDatabase() {
   sqlite3.verbose();
@@ -25,6 +26,24 @@ export function initDatabase() {
       } else {
         log.info("Connected to sqlite3 at: " + dbPath);
       }
+    });
+
+    db.serialize(() => {
+      const createTable = `
+      CREATE TABLE IF NOT EXISTS metadata(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      table_name TEXT NOT NULL UNIQUE,
+      description TEXT NOT NULL
+      );
+      `;
+
+      db.run(createTable, (err) => {
+        if (err) {
+          log.error("Error creating database", err);
+        } else {
+          log.info("Metadata table created successfully");
+        }
+      });
     });
 
     db.close((err) => {

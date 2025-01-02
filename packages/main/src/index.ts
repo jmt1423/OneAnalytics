@@ -7,7 +7,7 @@ import { hardwareAccelerationMode } from "./modules/HardwareAccelerationModule.j
 import { autoUpdater } from "./modules/AutoUpdater.js";
 import { allowInternalOrigins } from "./modules/BlockNotAllowdOrigins.js";
 import { allowExternalUrls } from "./modules/ExternalUrls.js";
-import { initCreateDatabaseOps } from "./TypeORM/database-io/index.js";
+import { initCreateDatabaseOps } from "./database-modules/database-io/index.js";
 
 export async function initApp(initConfig: AppInitConfig) {
   // initializing handlers and database operations

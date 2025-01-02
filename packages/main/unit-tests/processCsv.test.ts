@@ -1,5 +1,5 @@
 import { it, expect, describe, afterEach, vi } from "vitest";
-import { ProcessCsv } from "../src/TypeORM/database-io/import-modules/ProcessCsv.ts";
+import { ProcessCsv } from "../src/database-modules/database-io/import-modules/ProcessCsv.ts";
 
 vi.mock("dialog", () => ({
   default: {

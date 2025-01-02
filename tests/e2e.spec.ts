@@ -4,7 +4,6 @@ import { expect, test as base } from "@playwright/test";
 import type { BrowserWindow } from "electron";
 import { globSync } from "glob";
 import { platform } from "node:process";
-import log from "electron-log";
 
 process.env.PLAYWRIGHT_TEST = "true";
 
