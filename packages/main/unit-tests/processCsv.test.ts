@@ -1,5 +1,5 @@
 import { it, expect, describe, afterEach, vi } from "vitest";
-import { ProcessCsv } from "../src/database-modules/database-io/import-modules/ProcessCsv.ts";
+import { ChooseFile } from "../src/database-modules/database-io/import-modules/ChooseFile.ts";
 
 vi.mock("dialog", () => ({
   default: {
@@ -21,7 +21,7 @@ describe("ProcessCsv File", () => {
   });
 
   it("file base name should be null", () => {
-    const pick = new ProcessCsv();
+    const pick = new ChooseFile();
     expect(pick.baseName).toBe(null);
   });
 });

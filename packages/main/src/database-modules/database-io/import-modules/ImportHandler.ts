@@ -1,12 +1,17 @@
 import { ipcMain } from "electron";
-import { ProcessCsv } from "./ProcessCsv.js";
+import { ChooseFile } from "./ChooseFile.js";
+import { parse } from "./ProcessCsv.js";
+
+export const chooseFile = new ChooseFile();
 
 export function registerImportHandlers() {
-  const processCsv = new ProcessCsv();
-
   ipcMain.handle("dialog:openFile", async () => {
-    await processCsv.pickFile();
+    await chooseFile.pickFile();
 
-    return processCsv.getBaseName();
+    return chooseFile.getBaseName();
+  });
+
+  ipcMain.handle("submit:dataset", async (event, description: string) => {
+    parse(description);
   });
 }

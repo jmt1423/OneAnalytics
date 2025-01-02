@@ -14,6 +14,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { openFilePicker } from "@vite-electron-builder/preload";
+import { submitDataset } from "@vite-electron-builder/preload";
 
 interface DashboardType {
   name: string;
@@ -32,6 +33,7 @@ export default function ImportExportDataset() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selected, setSelected] = React.useState<string | null>("import");
   const [file, setFile] = React.useState<string | null>(null);
+  const [description, setDescription] = React.useState("");
 
   const handleOpen = () => {
     onOpen();
@@ -48,6 +50,16 @@ export default function ImportExportDataset() {
     if (name) {
       setFile(name);
     }
+  };
+
+  const handleSubmit = async () => {
+    await submitDataset("submit:dataset", description);
+  };
+
+  const onDatasetSubmit = () => {
+    handleSubmit().catch((err) => {
+      log.error("error parsing and submitting dataset", err);
+    });
   };
 
   const ease: number[] = [0.36, 0.66, 0.4, 1];
@@ -130,7 +142,13 @@ export default function ImportExportDataset() {
                         Choose a file
                       </Button>
                       <div className="text-sm text-gray-400">{file}</div>
-                      <Input isRequired label="Description" type="text" />
+                      <Input
+                        isRequired
+                        label="Description"
+                        type="text"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                      />
 
                       <div className="flex gap-2 justify-end">
                         <Button
@@ -138,6 +156,7 @@ export default function ImportExportDataset() {
                           color="primary"
                           variant="ghost"
                           aria-label="upload button"
+                          onPress={onDatasetSubmit}
                         >
                           Upload
                         </Button>
